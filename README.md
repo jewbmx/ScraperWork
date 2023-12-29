@@ -1,5 +1,6 @@
 
 # Forks and/or Issues can be used to help out.
+(Tossed in a basic scraper_template.py to show a example of commenting any info into a scraper you might edit lol.)
 
 
 ## This repo is where i will be tossing all the duds.
