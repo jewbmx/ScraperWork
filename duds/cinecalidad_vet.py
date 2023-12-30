@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+"""
+lines: 74-75
+Fix for scraping movies.  Could be cleaned up with a regex or replace
+"""
+
 import base64
 from six import ensure_text
 from six.moves.urllib_parse import parse_qs, urlencode
@@ -66,6 +71,8 @@ class source:
                 result_url = [i[0] for i in results if check == i[1]][0]
             html = client.scrapePage(result_url).text
             results = zip(client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option'}, ret='data-option'), client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option'}))
+            if not 'tvshowtitle' in data:
+                results = zip(client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option '}, ret='data-option'), client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option '}))
             for result_link, result_data in results:
                 if not '/flags/en.png' in result_data:
                     continue
