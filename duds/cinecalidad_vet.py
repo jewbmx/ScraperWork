@@ -70,9 +70,7 @@ class source:
                 results = [(i[0][0], i[1][0]) for i in results if len(i[0]) > 0 and len(i[1]) > 0]
                 result_url = [i[0] for i in results if check == i[1]][0]
             html = client.scrapePage(result_url).text
-            results = zip(client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option'}, ret='data-option'), client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option'}))
-            if not 'tvshowtitle' in data:
-                results = zip(client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option '}, ret='data-option'), client_utils.parseDOM(html, 'li', attrs={'class': 'dooplay_player_option '}))
+            results = zip(client_utils.parseDOM(html, 'li', attrs={'class': r'dooplay_player_option.*?'}, ret='data-option'), client_utils.parseDOM(html, 'li', attrs={'class': r'dooplay_player_option.*?'}))
             for result_link, result_data in results:
                 if not '/flags/en.png' in result_data:
                     continue
