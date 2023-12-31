@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-lines: 74-75
-Fix for scraping movies.  Could be cleaned up with a regex or replace
+line: 73
 """
 
 import base64
