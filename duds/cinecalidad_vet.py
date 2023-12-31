@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-line: 73
+see line(s): 72, incorporated jbmx's fix.
 """
 
 import base64
