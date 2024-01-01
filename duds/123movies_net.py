@@ -3,7 +3,7 @@
 """
  a lot of changes, lines 93 thru 113.
  added def getlinks for readability.
- Feel free to rewrite anything.
+ Feel free to rewrite.
 """
 
 import re
