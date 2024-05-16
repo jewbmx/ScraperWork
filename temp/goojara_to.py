@@ -357,9 +357,13 @@ class source:
             headers, last_cookie = self.GetCook(result_url)
 
             for link, host in result_links:
-                mylink = self.GetPlayLink(link, headers, last_cookie)
-                vurls.append((mylink, host))
-            
+                try:
+                    mylink = self.GetPlayLink(link, headers, last_cookie)
+                    vurls.append((mylink, host))
+                except:
+                    # log_utils.log('FAILED: link =' + repr(link), 1)
+                    pass
+
             for link, host in vurls:
                 if 'wootly' in link.lower():
                     source = {
