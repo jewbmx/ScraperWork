@@ -46,6 +46,8 @@ class source:
 
     # written by mbebe on GitHub: https://github.com/mbebe/blomqvist
     # License: https://github.com/mbebe/blomqvist/blob/master/LICENSE
+    #
+    # TODO: should we move this into scrape_sources.py ?
     def GetPlayLink(self, server_id, url, host, headers):
         url_api = base64.b64decode(''.join(chr(int(c)) for c in
                                            '118O0O107O0O71O0O99O0O104O0O57O0O67O0O99O0O119O0O70O0O109O0O76O0O115O0O86O0O50O0O89O0O121O0O86O0O109O0O100O0O117O0O119O0O87O0O89O0O108O0O82O0O88O0O76O0O121O0O86O0O71O0O90O0O117O0O86O0O72O0O97O0O48O0O82O0O88O0O97O0O105O0O74O0O87O0O89O0O121O0O57O0O121O0O76O0O54O0O77O0O72O0O99O0O48O0O82O0O72O0O97'.split(
@@ -113,7 +115,7 @@ class source:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'pl,en-US;q=0.7,en;q=0.3',
+                'Accept-Language': 'en-US, en;q=0.9',
                 'Connection': 'keep-alive',
                 'Upgrade-Insecure-Requests': '1',
                 'TE': 'Trailers',
