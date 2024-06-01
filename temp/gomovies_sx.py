@@ -132,18 +132,14 @@ class source:
             if 'tvshowtitle' in data:
                 r2 = [(i[0], i[1], i[2]) for i in r if cleantitle.match_alias(i[1], aliases) and i[0].startswith('/tv/')]
                 r2 = r2[::-1]   # reverse the list
-                if len(r2) > 1:
-                    for link, t, s in r2:
-                        yearCheckurl = self.base_link + link
-                        r = client.scrapePage(yearCheckurl).text
-                        get_year = re.findall('Released:.+?(\d{4})', r)[0]
-                        check_year = cleantitle.match_year(get_year, year, data['year'])
-                        if check_year:
-                            url = yearCheckurl
-                            break
-                else:
-                    result_url = next(r2)
-                    url = self.base_link + result_url
+                for link, t, s in r2:
+                    yearCheckurl = self.base_link + link
+                    r = client.scrapePage(yearCheckurl).text
+                    get_year = re.findall('Released:.+?(\d{4})', r)[0]
+                    check_year = cleantitle.match_year(get_year, year, data['year'])
+                    if check_year:
+                        url = yearCheckurl
+                        break
 
             # MOVIE
             if not 'tvshowtitle' in data:
