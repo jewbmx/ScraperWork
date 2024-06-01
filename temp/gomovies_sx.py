@@ -126,27 +126,43 @@ class source:
             r = DOM(r, 'div', attrs={'class': 'flw-item'})
             r = [(DOM(i, 'a', ret='href'), DOM(i, 'a', ret='title'), DOM(i, 'span')) for i in r]
             r = [(i[0][0], i[1][0], i[2][0]) for i in r if len(i[0]) > 0 and len(i[1]) > 0 and len(i[2]) > 0]
+            
+            
+            # TV shows don't include the year, so we have to do a second scrape.
             if 'tvshowtitle' in data:
-                result_url = [i[0] for i in r if cleantitle.match_alias(i[1], aliases) and i[0].startswith('/tv/')][0]
-                url = self.base_link + result_url
-            else:
+                r2 = [(i[0], i[1], i[2]) for i in r if cleantitle.match_alias(i[1], aliases) and i[0].startswith('/tv/')]
+                r2 = r2[::-1]   # reverse the list
+                if len(r2) > 1:
+                    for link, t, s in r2:
+                        yearCheckurl = self.base_link + link
+                        r = client.scrapePage(yearCheckurl).text
+                        get_year = re.findall('Released:.+?(\d{4})', r)[0]
+                        check_year = cleantitle.match_year(get_year, year, data['year'])
+                        if check_year:
+                            url = yearCheckurl
+                            break
+                else:
+                    result_url = next(r2)
+                    url = self.base_link + result_url
+
+            # MOVIE
+            if not 'tvshowtitle' in data:
                 result_url = [i[0] for i in r if
                               cleantitle.match_alias(i[1], aliases) and cleantitle.match_year(i[2], year) and i[0].startswith(
                                   '/movie/')][0]
                 url = self.base_link + result_url
-
-            if not url:
-                return
-
-            r = client.scrapePage(url).text
-
-            try:
-                check_year = re.findall('Released:.+?(\d{4})', r)[0]
-                check_year = cleantitle.match_year(check_year, year, data['year'])
-            except:
-                check_year = 'Failed to find year info.'  # Used to fake out the year check code.
+                if not url:
+                    return
+                r = client.scrapePage(url).text
+                try:
+                    check_year = re.findall('Released:.+?(\d{4})', r)[0]
+                    check_year = cleantitle.match_year(check_year, year, data['year'])
+                except:
+                    check_year = 'Failed to find year info.'  # Used to fake out the year check code.
+                    
             if not check_year:
                 return self.results
+
             item_id = DOM(r, 'div', attrs={'class': 'detail_page-watch'}, ret='data-id')[0]
             if 'tvshowtitle' in data:
                 check_season = 'Season %s' % season
